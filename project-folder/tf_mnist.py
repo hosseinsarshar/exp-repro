@@ -13,6 +13,11 @@ print("TensorFlow version:", tf.__version__)
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--data-folder', type=str, dest='data_folder', help='data folder mounting point')
+parser.add_argument('--dataset-test-images', type=str, dest='dataset_test_images', help='dataset_test_images Mount Dataset')
+parser.add_argument('--dataset-test-labels', type=str, dest='dataset_test_labels', help='dataset_test_labels Mount Dataset')
+parser.add_argument('--dataset-train-images', type=str, dest='dataset_train_images', help='dataset_train_images Mount Dataset')
+parser.add_argument('--dataset-train-labels', type=str, dest='dataset_train_labels', help='dataset_train_labels Mount Dataset')
+
 parser.add_argument('--batch-size', type=int, dest='batch_size', default=50, help='mini batch size for training')
 parser.add_argument('--first-layer-neurons', type=int, dest='n_hidden_1', default=100,
                     help='# of neurons in the first layer')
@@ -21,15 +26,31 @@ parser.add_argument('--second-layer-neurons', type=int, dest='n_hidden_2', defau
 parser.add_argument('--learning-rate', type=float, dest='learning_rate', default=0.01, help='learning rate')
 args = parser.parse_args()
 
-data_folder = os.path.join(args.data_folder, 'mnist') if args.data_folder else os.path.join('data', 'mnist')
+if args.data_folder:
+    data_folder = os.path.join(args.data_folder, 'mnist') if args.data_folder else os.path.join('data', 'mnist')
+    print('training dataset is stored here:', data_folder)
 
-print('training dataset is stored here:', data_folder)
+    X_train = load_data(os.path.join(data_folder, 'train-images.gz'), False) / 255.0
+    X_test = load_data(os.path.join(data_folder, 'test-images.gz'), False) / 255.0
+    y_train = load_data(os.path.join(data_folder, 'train-labels.gz'), True).reshape(-1)
+    y_test = load_data(os.path.join(data_folder, 'test-labels.gz'), True).reshape(-1)
+    
+else:
+    X_train_data_folder = os.path.join(args.dataset_test_images, 'mnist') if args.dataset_test_images else os.path.join('data', 'mnist')
+    X_test_data_folder = os.path.join(args.dataset_test_labels, 'mnist') if args.dataset_test_labels else os.path.join('data', 'mnist')
+    y_train_data_folder = os.path.join(args.dataset_train_images, 'mnist') if args.dataset_train_images else os.path.join('data', 'mnist')
+    y_test_data_folder = os.path.join(args.dataset_train_labels, 'mnist') if args.dataset_train_labels else os.path.join('data', 'mnist')
+    
+    print(f'X_train_data_folder: {X_train_data_folder}')
+    print(f'X_test_data_folder: {X_test_data_folder}')
+    print(f'y_train_data_folder: {y_train_data_folder}')
+    print(f'y_test_data_folder: {y_test_data_folder}')
 
-X_train = load_data(os.path.join(data_folder, 'train-images.gz'), False) / 255.0
-X_test = load_data(os.path.join(data_folder, 'test-images.gz'), False) / 255.0
+    X_train = load_data(os.path.join(X_train_data_folder, 'train-images.gz'), False) / 255.0
+    X_test = load_data(os.path.join(X_test_data_folder, 'test-images.gz'), False) / 255.0
+    y_train = load_data(os.path.join(y_train_data_folder, 'train-labels.gz'), True).reshape(-1)
+    y_test = load_data(os.path.join(y_test_data_folder, 'test-labels.gz'), True).reshape(-1)
 
-y_train = load_data(os.path.join(data_folder, 'train-labels.gz'), True).reshape(-1)
-y_test = load_data(os.path.join(data_folder, 'test-labels.gz'), True).reshape(-1)
 
 print(X_train.shape, y_train.shape, X_test.shape, y_test.shape, sep='\n')
 training_set_size = X_train.shape[0]
