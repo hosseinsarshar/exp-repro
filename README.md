@@ -1,6 +1,7 @@
 # exp-repro
-This repo provides step to step guide to build reproducible experiments
+This repo is built by Hossein Sarshar for the [AISC MLOps Workshop](https://www.eventbrite.ca/e/premium-hands-on-workshop-ml-ops-cloud-for-successful-ml-products-tickets-71406154731?aff=lunch#). Should you have any questions, feel free to email me at hossein.sarshar@gmail.com or tweet me at [classicboyir](https://twitter.com/classicboyir).
 
-Feel free to clone or fork this repo. If you have any questions, reach out to me at hossein.sarshar@gmail.com.
+The aim is to provide a step to step guide to build reproducible experiments.
+![Reproducible Experiments for Machine Learning](assets/reproducible_experiment_azure_machine_learning.jpg)
 
-For a more extensive tutorial on AzureML, have a look at https://github.com/Azure/MachineLearningNotebooks repo.
+For full MLOps guide, please check my other repo focusing on building [CI/CD pipeline for you ML workload](https://github.com/classicboyir/build-release-ci-cd).
